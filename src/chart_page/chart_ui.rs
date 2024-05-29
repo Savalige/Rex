@@ -291,16 +291,12 @@ pub fn chart_ui<S: ::std::hash::BuildHasher>(
     }
 
     let mut color_list = vec![
-        Color::LightRed,
-        Color::LightBlue,
-        Color::LightYellow,
-        Color::Gray,
-        Color::Black,
-        Color::Yellow,
-        Color::Green,
-        Color::Red,
-        Color::Blue,
-        Color::Magenta,
+        Color::Rgb(139, 233, 253), // Cyan
+        Color::Rgb(80, 250, 123),  // Green
+        Color::Rgb(255, 184, 108), // Orange
+        Color::Rgb(255, 121, 198), // Pink
+        Color::Rgb(189, 147, 249), // Purple
+        Color::Rgb(255, 85, 85),   // Red
     ];
 
     let mut final_dataset = vec![];
@@ -309,7 +305,7 @@ pub fn chart_ui<S: ::std::hash::BuildHasher>(
     for i in 0..all_tx_methods.len() {
         // run out of colors = cyan default
         if color_list.is_empty() {
-            color_list.push(Color::Cyan);
+            color_list.push(Color::Rgb(241, 250, 140));
         }
 
         if !chart_activated_methods[&all_tx_methods[i]] {

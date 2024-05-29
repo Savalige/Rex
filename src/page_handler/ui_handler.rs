@@ -29,15 +29,34 @@ use crate::summary_page::{summary_ui, SummaryData};
 use crate::tx_handler::TxData;
 use crate::utility::get_all_tx_methods;
 
-pub const BACKGROUND: Color = Color::Rgb(245, 245, 255);
-pub const TEXT: Color = Color::Rgb(153, 78, 236);
-pub const BOX: Color = Color::Rgb(255, 87, 51);
-pub const SELECTED: Color = Color::Rgb(151, 251, 151);
-pub const HIGHLIGHTED: Color = Color::Rgb(38, 38, 38);
-pub const HEADER: Color = Color::Rgb(0, 150, 255);
-pub const RED: Color = Color::Rgb(255, 51, 51);
-pub const BLUE: Color = Color::Rgb(51, 51, 255);
-pub const GRAY: Color = Color::Rgb(128, 128, 128);
+//const DEFAULT_BACKGROUND: Color = Color::Rgb(245, 245, 255);
+//const DEFAULT_TEXT: Color = Color::Rgb(153, 78, 236);
+//const DEFAULT_BOX: Color = Color::Rgb(255, 87, 51);
+//const DEFAULT_SELECTED: Color = Color::Rgb(151, 251, 151);
+//const DEFAULT_HIGHLIGHTED: Color = Color::Rgb(38, 38, 38);
+//const DEFAULT_HEADER: Color = Color::Rgb(0, 150, 255);
+//const DEFAULT_RED: Color = Color::Rgb(255, 51, 51);
+//const DEFAULT_BLUE: Color = Color::Rgb(51, 51, 255);
+//const DEFAULT_GRAY: Color = Color::Rgb(128, 128, 128);
+
+const DRACULA_BACKGROUND: Color = Color::Rgb(40, 42, 54);
+const DRACULA_TEXT: Color = Color::Rgb(248, 248, 242);
+const DRACULA_CURRENT_LINE: Color = Color::Rgb(68, 71, 90);
+const DRACULA_RED: Color = Color::Rgb(255, 85, 85);
+const DRACULA_FOREGROUND: Color = Color::Rgb(248, 248, 242);
+const DRACULA_YELLOW: Color = Color::Rgb(241, 250, 140);
+//const DRACULA_ORANGE: Color = Color::Rgb(255, 184, 108);
+const DRACULA_COMMENT: Color = Color::Rgb(98, 114, 164);
+
+pub const BACKGROUND: Color = DRACULA_BACKGROUND;
+pub const TEXT: Color = DRACULA_TEXT;
+pub const BOX: Color = DRACULA_COMMENT;
+pub const SELECTED: Color = DRACULA_COMMENT;
+pub const HIGHLIGHTED: Color = DRACULA_CURRENT_LINE;
+pub const HEADER: Color = DRACULA_COMMENT;
+pub const RED: Color = DRACULA_RED;
+pub const BLUE: Color = DRACULA_FOREGROUND;
+pub const GRAY: Color = DRACULA_YELLOW;
 
 /// Starts the interface and run the app
 #[cfg(not(tarpaulin_include))]

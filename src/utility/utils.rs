@@ -482,6 +482,13 @@ pub fn sort_table_data(mut data: Vec<Vec<String>>, sort_type: &SortingType) -> V
                 let val_b: f64 = b[2].parse().unwrap();
                 val_b.partial_cmp(&val_a).unwrap()
             });
+        },
+        SortingType::ByNet => {
+            data.sort_by(|a, b| {
+                let val_a: f64 = a[1].parse::<f64>().unwrap() - a[2].parse::<f64>().unwrap();
+                let val_b: f64 = b[1].parse::<f64>().unwrap() - b[2].parse::<f64>().unwrap();
+                val_b.partial_cmp(&val_a).unwrap()
+            });
         }
     }
 

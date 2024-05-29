@@ -54,10 +54,17 @@ pub fn summary_ui(
         "Total Expense"
     };
 
+    let net_header = if let SortingType::ByNet = summary_sort {
+        "Net"
+    } else {
+        "Net"
+    };
+
     let header_cells = [
         tag_header,
         total_income_header,
         total_expense_header,
+        net_header,
         "Income %",
         "Expense %",
     ]
@@ -251,11 +258,12 @@ pub fn summary_ui(
     let mut table_area = Table::new(
         rows,
         [
-            Constraint::Percentage(20),
-            Constraint::Percentage(20),
-            Constraint::Percentage(20),
-            Constraint::Percentage(20),
-            Constraint::Percentage(20),
+            Constraint::Percentage(100/6),
+            Constraint::Percentage(100/6),
+            Constraint::Percentage(100/6),
+            Constraint::Percentage(100/6),
+            Constraint::Percentage(100/6),
+            Constraint::Percentage(100/6),
         ],
     )
     .header(header)

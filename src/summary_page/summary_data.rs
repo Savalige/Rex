@@ -101,6 +101,7 @@ impl SummaryData {
     ) -> Vec<Vec<String>> {
         let mut income_tags = HashMap::new();
         let mut expense_tags = HashMap::new();
+        let mut net_tags = HashMap::new();
         match mode.index {
             // 0 = monthly mode. Select the data only of the given month year
             0 => {
@@ -128,6 +129,15 @@ impl SummaryData {
                                     *expense_tags.get_mut(tag).unwrap() += tx_amount;
                                 } else {
                                     expense_tags.insert(tag, tx_amount);
+                                }
+                            }
+                        }
+                        "Net" => {
+                            for tag in tx_tags {
+                                if net_tags.contains_key(tag) {
+                                    *net_tags.get_mut(tag).unwrap() += tx_amount;
+                                } else {
+                                    net_tags.insert(tag, tx_amount);
                                 }
                             }
                         }
@@ -162,6 +172,15 @@ impl SummaryData {
                                         *expense_tags.get_mut(tag).unwrap() += tx_amount;
                                     } else {
                                         expense_tags.insert(tag, tx_amount);
+                                    }
+                                }
+                            }
+                            "Net" => {
+                                for tag in tx_tags {
+                                    if net_tags.contains_key(tag) {
+                                        *net_tags.get_mut(tag).unwrap() += tx_amount;
+                                    } else {
+                                        net_tags.insert(tag, tx_amount);
                                     }
                                 }
                             }
@@ -201,6 +220,15 @@ impl SummaryData {
                                         }
                                     }
                                 }
+                                "Net" => {
+                                    for tag in tx_tags {
+                                        if net_tags.contains_key(tag) {
+                                            *net_tags.get_mut(tag).unwrap() += tx_amount;
+                                        } else {
+                                            net_tags.insert(tag, tx_amount);
+                                        }
+                                    }
+                                }
                                 _ => {}
                             }
                         }
@@ -209,7 +237,7 @@ impl SummaryData {
             }
             _ => {}
         }
-        let mut table_data = self.generate_table_data(&income_tags, &expense_tags);
+        let mut table_data = self.generate_table_data(&income_tags, &expense_tags, &net_tags);
         table_data.sort();
         table_data
     }
@@ -515,34 +543,57 @@ impl SummaryData {
         &self,
         income_tags: &HashMap<&str, f64>,
         expense_tags: &HashMap<&str, f64>,
+        net_tags: &HashMap<&str, f64>,
     ) -> Vec<Vec<String>> {
         let mut to_return = Vec::new();
         let mut total_income = 0.0;
         let mut total_expense = 0.0;
 
         for (key, value) in income_tags {
+            let income = value;
+            let mut expense = 0.0;
             let mut to_push = vec![(*key).to_string(), format!("{:.2}", value)];
             total_income += value;
 
             // if the same tag already exists on expense, get that value as well
             if expense_tags.contains_key(key) {
+                expense = expense_tags[key];
                 to_push.push(format!("{:.2}", expense_tags[key]));
                 total_expense += expense_tags[key];
             } else {
                 to_push.push(format!("{:.2}", 0.0));
             }
+
+            to_push.push(format!("{:.2}", income-expense));
             to_return.push(to_push);
         }
 
         for (key, value) in expense_tags {
+            let income = 0.0;
+            let expense = value;
             // gather data only from the tags that didn't exist on Income tag list
             if !income_tags.contains_key(key) {
-                to_return.push(vec![
+                let mut to_push = vec![
                     (*key).to_string(),
                     format!("{:.2}", 0.0),
                     format!("{:.2}", value),
-                ]);
+                ];
+
+                to_push.push(format!("{:.2}", income-expense));
+                to_return.push(to_push);
                 total_expense += value;
+            }
+        }
+
+        for (key, _value) in net_tags {
+            // gather data only from the tags that didn't exist on Income tag list
+            if !income_tags.contains_key(key) && !expense_tags.contains_key(key) {
+                to_return.push(vec![
+                    (*key).to_string(),
+                    format!("{:.2}", 0.0),
+                    format!("{:.2}", 0.0),
+                    format!("{:.2}", 0.0),
+                ]);
             }
         }
         // we got the income and expense data earlier. Now need to loop again

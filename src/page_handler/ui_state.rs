@@ -390,6 +390,7 @@ pub enum SortingType {
     ByTags,
     ByIncome,
     ByExpense,
+    ByNet,
 }
 
 impl SortingType {
@@ -399,6 +400,7 @@ impl SortingType {
             SortingType::ByTags => SortingType::ByIncome,
             SortingType::ByIncome => SortingType::ByExpense,
             SortingType::ByExpense => SortingType::ByTags,
+            SortingType::ByNet => SortingType::ByNet,
         }
     }
 }
